@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="template :: head">
+</head>
+<body>
+<nav th:replace="template :: navbar"></nav>
+<section th:replace="template :: afternavbar">
+</section>
+<div class="row">
+
+    <div class="col-lg-6" style="margin-left: 5%;">
+        <div class="panel panel-default">
+            <div class="panel-heading" ><span th:text="${article.name}"></span></div>
+            <div class="panel-body">
+
+                <p > <span th:text="${article.summary}"></span></p>
+                <hr/>
+                <p > <span th:text="${article.content}"></span></p>
+                <br/>
+                <a th:href="@{|/author/${author.id}|}"><p >Author: <span th:text="${author.name}"></span></p></a>
+                <hr/>
+                <p > <span th:text="${article.date}"></span></p>
+                <div th:each="tag, iterStat : ${tags}">
+                    <a th:href="@{|/tag/${tag.id}|}"><span th:text="${tag.name}"></span></a>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-left: 5%;">
+            <div class="panel panel-default">
+                <div class="panel-heading" >Comment</div>
+                    <div class="panel-body">
+                    <form th:action="@{/addcomment}" th:object="${com}" method="post">
+                     Commentor: <input type="text" th:field="*{commentor}"/>
+                     <hr/>
+                     Message: <input type="text" th:field = "*{message}" />
+                     <hr/>
+                     <input type="hidden" th:value="${article.id}" name="idarticle"/><br/>
+                     <button style="margin-top: 5px;" type="submit" class="btn btn-primary" value="submit">Submit </button>
+                       <button style="margin-top: 5px;" type="reset" class="btn btn-primary" value="Reset" >Reset</button>
+                    </form>
+                    </div>
+            </div>
+
+
+            <div class= "row" th:each="c, iterStat : ${commentList}">
+                <div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" >Commentor:<span th:text="${c.commentor}"></span></div>
+                        <div class="panel-body">
+                            <p class="lead">Message</p>
+                            <p > <span th:text="${c.message}"></span></p>
+                            <hr/>
+                            <p> <span th:text="${c.date}"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>
